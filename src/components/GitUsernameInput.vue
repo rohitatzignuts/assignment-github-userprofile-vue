@@ -15,8 +15,3 @@ function handleSubmit(){
         </button>
     </form>
 </template>
-<style scoped>
-    .input{
-        margin-bottom: 1rem;
-    }
-</style>

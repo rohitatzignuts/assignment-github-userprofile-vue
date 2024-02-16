@@ -51,10 +51,9 @@ async function handleSubmit(username){
 
 <template>
   <div class="ui container">
-    <GitUsernameInputVue 
-      @username-submitted="handleSubmit"
-    />
-    <div v-if="userData.length">
+      <GitUsernameInputVue 
+        @username-submitted="handleSubmit"
+      />
       <GitUserProfile 
         :avatar-url="userData[0]?.avatar"
         :user-name="userData[0]?.name"
@@ -62,8 +61,6 @@ async function handleSubmit(username){
         :user-followers="userData[0]?.followers"
         :user-registration-date="userData[0]?.registerDate"
       />
-    </div>
-    <code v-else>404 | Not Found</code>
   </div>
 
 </template>
