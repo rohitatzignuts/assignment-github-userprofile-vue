@@ -6,7 +6,12 @@ onMounted( () => {
             $(this).closest('.message').transition('fade')
     });
 })
-defineProps(['message']);
+defineProps({
+    message : {
+        type : String,
+        required : true
+    }
+});
 
 </script>
 

@@ -1,7 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 const emit = defineEmits(['usernameSubmitted'])
-const username = ref('')
+const username : String = ref('')
 function handleSubmit(){
     emit('usernameSubmitted',username.value)
     username.value = ''

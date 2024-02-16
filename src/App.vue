@@ -1,40 +1,42 @@
-<script setup>
+<script setup lang="ts">
 
 import axios from 'axios';
 import GitUserProfile from '@/components/GitUser/GitUserProfile.vue';
 import GitUsernameInputVue from '@/components/GitUser/GitUsernameInput.vue';
 import Notification from '@/components/Notification/Notification.vue';
+import UserProfile from './components/UserProfile.vue';
 import { ref } from 'vue';
 
-const userData = ref([]);
-const gitUsername = ref('rohitvispute2151')
-const notificationType = ref(null)
+const userData : Object = ref({});
+const gitUsername  = ref('')
+const notificationType  = ref(null)
+
+
 // fetch userdata from the api
-function fetchUserData(username) {
-  return axios(`https://api.github.com/users/${username}`)
-    .then((result) => {
+const fetchUserData = async (username : String ) => {
+    try {
+      const result = await axios(`https://api.github.com/users/${username}`);
       return {
-        avatar: result.data.avatar_url,
-        name: result.data.name,
-        registerDate: result.data.created_at,
-        bio: result.data.bio,
-        followers: result.data.followers
+      avatar: result.data.avatar_url,
+      name: result.data.name,
+      registerDate: result.data.created_at,
+      bio: result.data.bio,
+      followers: result.data.followers
       };
-    })
-    .catch((err) => {
-      if (err.response && err.response.status === 404 ) {
-        console.error(`User '${username}' not found`);
-        return null
-      } else {
-        console.error(err)
-        throw err
-      }
-    });
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+      console.error(`User '${username}' not found`);
+      return null;
+    } else {
+      console.error(err);
+      throw err;
+    }
+  }
 }
 
-fetchUserData(gitUsername.value).then((user) => {
+fetchUserData(gitUsername.value = 'rohitvispute2151').then((user) => {
   if (user) {
-    userData.value = [user]
+    userData.value = user
   }
 });
 
@@ -43,7 +45,7 @@ async function handleSubmit(username){
   gitUsername.value = username;
   const user = await fetchUserData(username)
   if (user) {
-    userData.value = [user]
+    userData.value = user
     notificationType.value = "success"
   }else{
     notificationType.value = 'negative'
@@ -53,6 +55,7 @@ async function handleSubmit(username){
 
 <template>
   <div class="ui container">
+      <!-- <UserProfile /> -->
       <Notification 
         v-if="notificationType !== null"
         :class="notificationType"
@@ -62,11 +65,11 @@ async function handleSubmit(username){
         @username-submitted="handleSubmit"
       />
       <GitUserProfile 
-        :avatar-url="userData[0]?.avatar"
-        :user-name="userData[0]?.name"
-        :user-bio="userData[0]?.bio"
-        :user-followers="userData[0]?.followers"
-        :user-registration-date="userData[0]?.registerDate"
+        :avatar-url="userData?.avatar || '' "
+        :user-name="userData?.name|| '' "
+        :user-bio="userData?.bio|| '' "
+        :user-followers="userData?.followers|| 0 "
+        :user-registration-date="userData?.registerDate|| '' "
       />
   </div>
 </template>

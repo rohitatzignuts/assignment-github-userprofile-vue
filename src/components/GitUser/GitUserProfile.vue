@@ -1,5 +1,30 @@
 <script setup>
-defineProps(['avatarUrl','userName','userRegistrationDate','userBio','userFollowers'])
+defineProps({
+    avatarUrl : {
+        type : String,
+        required : true
+    },
+    userName : {
+        type : String,
+        required : true
+    },
+    userRegistrationDate : {
+        type : String,
+        required : true
+    },
+    avatarUrl : {
+        type : String,
+        required : true
+    },
+    userBio : {
+        type : String,
+        required : true
+    },
+    userFollowers : {
+        type : Number,
+        required : true
+    },
+});
 </script>
 
 <template>
