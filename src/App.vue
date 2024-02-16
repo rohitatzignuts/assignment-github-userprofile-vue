@@ -1,13 +1,14 @@
 <script setup>
 
 import axios from 'axios';
-import GitUserProfile from '@/components/GitUserProfile.vue';
-import GitUsernameInputVue from './components/GitUsernameInput.vue';
+import GitUserProfile from '@/components/GitUser/GitUserProfile.vue';
+import GitUsernameInputVue from '@/components/GitUser/GitUsernameInput.vue';
+import Notification from '@/components/Notification/Notification.vue';
 import { ref } from 'vue';
 
 const userData = ref([]);
 const gitUsername = ref('rohitvispute2151')
-
+const notificationType = ref(null)
 // fetch userdata from the api
 function fetchUserData(username) {
   return axios(`https://api.github.com/users/${username}`)
@@ -43,14 +44,20 @@ async function handleSubmit(username){
   const user = await fetchUserData(username)
   if (user) {
     userData.value = [user]
+    notificationType.value = "success"
   }else{
-    return "User Not Found"
+    notificationType.value = 'negative'
   }
 }
 </script>
 
 <template>
   <div class="ui container">
+      <Notification 
+        v-if="notificationType !== null"
+        :class="notificationType"
+        :message="notificationType === 'success' ? 'Found The User' : 'User Not Found !'"
+      />
       <GitUsernameInputVue 
         @username-submitted="handleSubmit"
       />
@@ -62,6 +69,5 @@ async function handleSubmit(username){
         :user-registration-date="userData[0]?.registerDate"
       />
   </div>
-
 </template>
 

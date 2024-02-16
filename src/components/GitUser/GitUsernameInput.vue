@@ -9,7 +9,7 @@ function handleSubmit(){
 </script>
 <template>
     <form class="ui action input" @submit.prevent="handleSubmit">
-        <input type="text" placeholder="Search..." v-model="username">
+        <input type="text" placeholder="Github UserName..." v-model="username" required>
         <button class="ui icon button">
             <i class="search icon"></i>
         </button>
