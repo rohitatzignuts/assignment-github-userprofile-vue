@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-const emit = defineEmits(['usernameSubmitted'])
-const username : String = ref('')
-function handleSubmit(){
-    emit('usernameSubmitted',username.value)
-    username.value = ''
+const emit = defineEmits(['usernameSubmitted']);
+const username = ref<string>('');
+
+function handleSubmit() {
+    emit('usernameSubmitted', username.value);
+    username.value = '';
 }
 </script>
 <template>

@@ -1,11 +1,6 @@
-<script setup>
+<script setup lang="ts">
+import { defineProps, onMounted } from 'vue';
 
-import { onMounted } from 'vue'
-onMounted( () => {
-    $('.message .close').on('click', function() {
-            $(this).closest('.message').transition('fade')
-    });
-})
 defineProps({
     message : {
         type : String,
@@ -13,6 +8,11 @@ defineProps({
     }
 });
 
+onMounted(() => {
+    $('.message .close').on('click', function() {
+        $(this).closest('.message').transition('fade')
+    });
+});
 </script>
 
 <template>
@@ -21,7 +21,7 @@ defineProps({
     <div class="ui message">
         <i class="close icon"></i>
         <div class="header">
-            {{message}}
+            {{ message }}
         </div>
     </div>
 </template>

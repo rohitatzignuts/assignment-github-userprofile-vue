@@ -4,27 +4,40 @@ import axios from 'axios';
 import GitUserProfile from '@/components/GitUser/GitUserProfile.vue';
 import GitUsernameInputVue from '@/components/GitUser/GitUsernameInput.vue';
 import Notification from '@/components/Notification/Notification.vue';
-import UserProfile from './components/UserProfile.vue';
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const userData : Object = ref({});
-const gitUsername  = ref('')
-const notificationType  = ref(null)
+interface UserData {
+  avatar: string;
+  name: string;
+  registerDate: string;
+  bio: string;
+  followers: number;
+}
 
+const userData = ref<UserData>({
+  avatar: '',
+  name: '',
+  registerDate: '',
+  bio: '',
+  followers: 0
+});
+
+const gitUsername = ref<string>('');
+const notificationType = ref<string | null>(null);
 
 // fetch userdata from the api
-const fetchUserData = async (username : String ) => {
-    try {
-      const result = await axios(`https://api.github.com/users/${username}`);
-      return {
+const fetchUserData = async (username: string) => {
+  try {
+    const result = await axios(`https://api.github.com/users/${username}`);
+    return {
       avatar: result.data.avatar_url,
       name: result.data.name,
       registerDate: result.data.created_at,
       bio: result.data.bio,
       followers: result.data.followers
-      };
-    } catch (err) {
-      if (err.response && err.response.status === 404) {
+    };
+  } catch (err) {
+    if (err.response && err.response.status === 404) {
       console.error(`User '${username}' not found`);
       return null;
     } else {
@@ -32,30 +45,29 @@ const fetchUserData = async (username : String ) => {
       throw err;
     }
   }
-}
+};
 
 fetchUserData(gitUsername.value = 'rohitvispute2151').then((user) => {
   if (user) {
-    userData.value = user
+    userData.value = user;
   }
 });
 
 // handle user form input data
-async function handleSubmit(username){
+async function handleSubmit(username: string) {
   gitUsername.value = username;
-  const user = await fetchUserData(username)
+  const user = await fetchUserData(username);
   if (user) {
-    userData.value = user
-    notificationType.value = "success"
-  }else{
-    notificationType.value = 'negative'
+    userData.value = user;
+    notificationType.value = "success";
+  } else {
+    notificationType.value = 'negative';
   }
 }
 </script>
 
 <template>
   <div class="ui container">
-      <!-- <UserProfile /> -->
       <Notification 
         v-if="notificationType !== null"
         :class="notificationType"
